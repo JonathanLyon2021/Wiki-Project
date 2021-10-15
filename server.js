@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const handlebars = require("express-handlebars");
 
-
-
+//Remote files
+const articleRoutes = require("./routes/article");
 
 const PORT = process.env.PORT || 3000;
 // console.log(process.env);
@@ -20,6 +20,8 @@ app.engine(
 		partialDir: __dirname + "/views/partials",
 	})
 );
+app.set("view engine", "hbs");
+app.use(express.static("public"));
 
 //mongo
 const dbURI = `mongodb+srv://guest:${process.env.MONGO_PW}@project-wiki.lkv0y.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
@@ -28,9 +30,10 @@ const dbURI = `mongodb+srv://guest:${process.env.MONGO_PW}@project-wiki.lkv0y.mo
 app.use(express.json());
 
 //routes
-app.get("/", (req, res) => {
-	res.send("API is running");
-});
+app.use(articleRoutes);
+// app.get("/", (req, res) => {
+// 	res.send("API is running");
+// });
 
 mongoose
 	.connect(dbURI, {
