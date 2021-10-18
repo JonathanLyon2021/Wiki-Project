@@ -1,10 +1,12 @@
 const express = require("express");
+const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const handlebars = require("express-handlebars");
 
 //Remote files
 const articleRoutes = require("./routes/article");
+const authRoutes = require("./routes/auth");
 
 const PORT = process.env.PORT || 3000;
 // console.log(process.env);
@@ -21,7 +23,12 @@ app.engine(
 	})
 );
 app.set("view engine", "hbs");
+
+//static files
 app.use(express.static("public"));
+
+//middleware
+app.use(bodyparser.urlencoded({ extended: false }));
 
 //mongo
 const dbURI = `mongodb+srv://guest:${process.env.MONGO_PW}@project-wiki.lkv0y.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
@@ -31,9 +38,8 @@ app.use(express.json());
 
 //routes
 app.use(articleRoutes);
-// app.get("/", (req, res) => {
-// 	res.send("API is running");
-// });
+
+app.use(authRoutes);
 
 mongoose
 	.connect(dbURI, {

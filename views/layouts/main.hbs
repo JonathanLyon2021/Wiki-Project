@@ -1,87 +1,38 @@
-
-<!DOCTYPE html>
 <html lang="en">
 
 	<head>
 		<meta charset="UTF-8" />
-		<title>Wiki</title>
+		<title>{{docTitle}}</title>
+		<link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+        />
+
 		<link rel="stylesheet" href="css/site.css" />
 	</head>
 
-	<body>
-		<div>
-			<aside>
-				<div class="center">
-					<img class="logo" src="img/logo.png" alt="logo" />
-				</div>
+	<body class="img-fluid w-100 h-100">
+  <div>
+    <div id="container">
+      <div class="row top bottom">
+        <div class="col-md-4 menu">{{>menu}}</div>
+        <div class="col-md-8 title-msg top bottom">
+          <div class="row">
+            <div class="col-md-12 top"><header>{{>header}}</header></div>
+          </div>
+        <h1 class="rounded display-4 text-center">KingUni Wiki!</h1>
+        <div class="row">
+          <div class="col-md-12 main-content">{{{body}}}</main></div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 bottom"><footer>{{>footer}}</footer></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 
-				<nav>
-					<a href="index.html">Main Page</a>
-					<a href="all-articles.html">All Articles</a>
-					<form>
-						<input type="text" />
-						<input type="submit" value="Search" />
-					</form>
-					<a href="create.html">Create New Article</a>
-				</nav>
-			</aside>
-			<div id="container">
-
-				<main>
-					<h1>Welcome to KingUni Wiki!</h1>
-					<section id="featured">
-						<h2>Latests articles</h2>
-						<article>
-							<h3>Astronomy</h3>
-							<p>
-								Astronomy is a natural science that studies
-								celestial objects and phenomena. It applies
-								mathematics, physics, and chemistry, in an
-								effort to explain the origin of those objects
-								and phenomena and their evolution. Objects of
-								interest include planets, moons, stars,
-								galaxies, and comets; the phenomena include
-								supernova explosions, gamma ray bursts,&hellip;
-							</p>
-							<div class="controls">
-								<a href="article.html">Read more</a>
-							</div>
-						</article>
-						<article>
-							<h3>Telescope</h3>
-							<p>
-								A telescope is an optical instrument that aids
-								in the observation of remote objects by
-								collecting electromagnetic radiation (such as
-								visible light). The first known practical
-								telescopes were invented in the Netherlands at
-								the beginning of the 17th century, by using
-								glass lenses. They found use in both terrestrial
-								applications and astronomy,&hellip;
-							</p>
-							<div class="controls">
-								<a href="article.html">Read more</a>
-							</div>
-						</article>
-						<article>
-							<h3>Planet</h3>
-							<p>
-								A planet is an astronomical body orbiting a star
-								or stellar remnant that is massive enough to be
-								rounded by its own gravity, is not massive
-								enough to cause thermonuclear fusion, and has
-								cleared its neighbouring region of
-								planetesimals,&hellip;
-							</p>
-							<div class="controls">
-								<a href="article.html">Read more</a>
-							</div>
-						</article>
-					</section>
-				</main>
-
-			</div>
-		</div>
-	</body>
 
 </html>

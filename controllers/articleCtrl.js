@@ -4,5 +4,5 @@ exports.getHome = (req, res) => {
 	// console.log(res);
 
 	// res.json({ msg: "getHome" });
-	res.render("all-articles", {});
+	res.render("index.hbs", { docTitle: "home" });
 };
