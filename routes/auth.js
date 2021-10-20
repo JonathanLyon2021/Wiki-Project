@@ -5,6 +5,9 @@ const authCtrl = require("../controllers/authCtrl");
 route.get("/register", authCtrl.getRegister);
 route.post("/register", authCtrl.postRegister);
 
+route.get("/login", authCtrl.getLogin);
+route.post("/login", authCtrl.postLogin);
+
 
 module.exports = route;
 
