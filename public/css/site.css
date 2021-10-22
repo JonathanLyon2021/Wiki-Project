@@ -169,12 +169,12 @@ article > p {
 	font-size: 24px;
 }
 
-#notifications {
+/* #notifications {
 	width: 100%;
 	margin-top: 1%;
 	border-radius: 6px;
 	background-color: #fa8072;
-}
+} */
 
 #notifications p {
 	color: white;
@@ -191,23 +191,21 @@ footer {
 	color: white;
 }
 
-.msg{
-
-    /* position: fixed; */
-    top:120px;
-    right:1rem;
-    padding:1rem;
-    box-shadow: 2px 2px 5px rgba(0,0,0, 0.4);
-    border-radius: 5px;
-    color:white;
-    text-align: center;
+.msg {
+	/* position: fixed; */
+	top: 120px;
+	right: 1rem;
+	padding: 1rem;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+	border-radius: 5px;
+	color: white;
+	text-align: center;
 }
 
-.error{
-background: #F08080;
-
+.error {
+	background: #f08080;
 }
 
-.success{
-    background: #7DCEA0;
+.success {
+	background: #7dcea0;
 }

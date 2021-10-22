@@ -32,6 +32,7 @@ exports.getLogin = (req, res) => {
 
 exports.postLogin = (req, res) => {
 	const { username, password } = req.body;
+	// const isLoggedin = res.locals.isAuthenticated
 	console.log(username, password);
 	// console.log(req);
 
@@ -42,26 +43,44 @@ exports.postLogin = (req, res) => {
 				req.flash("error", "User not found in database");
 
 				console.log("no user in database");
-				return res.redirect("/login");
+				return res.render("/login", {
+					errorMessage: req.flash("error"),
+				});
 			}
 			//compare password to hased password in our database
 			bcrypt.compare(password, user.password).then((match) => {
 				if (match) {
 					req.session.isLoggedin = true;
 					req.session.user = user;
-					console.log(match);
-					console.log("logged in!");
-					// localStorage.setItem("userid", user._id);
-					// localStorage.setItem("username", user.username);
-					req.flash("success", "Logged in successfully!");
+					// console.log(req.session);
 
-					return res.redirect("/");
+					return req.session.save((err) => {
+						console.log(err);
+						req.flash("success", "Logged in successfully!");
+						return res.render("index.hbs", {
+							successMessage: req.flash("success"),
+							isLoggedin: req.session.isLoggedin,
+							username: req.session.user.username,
+						});
+					});
 				}
-				return res.redirect("/login");
+				req.flash("error", "Invalid username or password!");
+				return res.render("/login", {
+					errorMessage: req.flash("error"),
+				});
 			});
 		})
 		.catch((err) => {
 			console.log(err);
-			return res.redirect("/login");
+			return res.render("/login");
 		});
+};
+
+exports.getLogout = (req, res) => {
+	req.session.destroy((result) => {
+		res.render("index.hbs", {
+			docTitle: "home",
+			successMessage: "Successfully logged out",
+		});
+	});
 };
