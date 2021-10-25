@@ -51,7 +51,7 @@ app.use(
 	})
 );
 
-//once we call this array you cant you it anymore, after you call the method/array
+//once we call this array you cant use it anymore, after you call the method/array
 app.use(flash());
 
 //Check if user is currently logged into the session

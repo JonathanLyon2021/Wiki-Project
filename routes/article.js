@@ -10,4 +10,6 @@ route.get("/create", isAuth, articleCtrl.getCreate);
 
 route.post("/create", articleCtrl.postCreate);
 
+route.get("/article/:title", articleCtrl.getDetails);
+
 module.exports = route;

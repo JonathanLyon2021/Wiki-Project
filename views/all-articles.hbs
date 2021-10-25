@@ -4,21 +4,11 @@
 		<h2>All articles</h2>
 		<div class="spacer">
 			<ul>
+				{{#each titles}}
 				<li>
-					<a href="article.html">Astronomy</a>
+					<a href="article/{{this}}">{{this}}</a>
 				</li>
-				<li>
-					<a href="article.html">Galaxy</a>
-				</li>
-				<li>
-					<a href="article.html">Planet</a>
-				</li>
-				<li>
-					<a href="article.html">Star</a>
-				</li>
-				<li>
-					<a href="article.html">Telescope</a>
-				</li>
+				{{/each}}
 			</ul>
 		</div>
 	</section>
