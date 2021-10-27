@@ -12,4 +12,14 @@ route.post("/create", articleCtrl.postCreate);
 
 route.get("/article/:title", articleCtrl.getDetails);
 
+route.get("/delete/:id", articleCtrl.deleteArticle);
+
+route.get("/edit/:id", articleCtrl.getEdit);
+
+route.post("/edit/:id", articleCtrl.postEdit);
+
+
+
+
+
 module.exports = route;

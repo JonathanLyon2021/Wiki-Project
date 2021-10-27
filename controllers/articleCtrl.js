@@ -2,15 +2,33 @@
 
 const Article = require("../models/Article");
 
-exports.getHome = (req, res) => {
+exports.getHome = async (req, res) => {
 	console.log("home");
+	let username;
 	let isLoggedin = req.session.isLoggedin;
-	let username = req.session.user.username;
-	// console.log(req);
-	// console.log(res);
-
-	// res.json({ msg: "getHome" });
-	res.render("index.hbs", { docTitle: "home", isLoggedin, username });
+	if (isLoggedin) {
+		username = req.session.user.username;
+	} else {
+		username = null;
+	}
+	try {
+		let articles = await Article.find({});
+		console.log(articles);
+		articles = articles.slice(0, 3);
+		//[map over the articles and constrain the word count to 50 words]
+		articles = articles.map((article) => {
+			let description = article.content.split(" ").slice(0, 50).join(" ");
+			return { title: article.title, content: description };
+		});
+		res.render("index.hbs", {
+			docTitle: `home`,
+			isLoggedin,
+			username,
+			articles,
+		});
+	} catch (err) {
+		console.log(err);
+	}
 };
 
 exports.getAllArticles = async (req, res) => {
@@ -50,16 +68,29 @@ exports.getCreate = (req, res) => {
 	});
 };
 
+exports.getEdit = async (req, res) => {
+	let id = req.params.id;
+	const article = await Article.findById(id);
+	let isLoggedin = req.session.isLoggedin;
+	let username = req.session.user.username;
+
+	res.render("edit.hbs", {
+		docTitle: "Edit article",
+		isLoggedin,
+		username,
+		title: article.title,
+		content: article.content,
+		id: article._id,
+	});
+};
+
 exports.postCreate = async (req, res) => {
 	let { title, content } = req.body;
-
+	console.log(req.body);
 	const obj = { title, content, author: req.user._id };
 	const document = await Article.create(new Article(obj));
 	if (document) {
-		res.render("index.hbs", {
-			docTitle: "home",
-			successMessage: "Article created successfully",
-		});
+		res.redirect("/");
 	} else {
 		res.render("index.hbs", {
 			docTitle: "home",
@@ -68,21 +99,49 @@ exports.postCreate = async (req, res) => {
 	}
 };
 
+exports.postEdit = async (req, res) => {
+	let id = req.params.id;
+	let { title, content } = req.body;
+	const article = await Article.findById(id);
+	article.title = title;
+	article.content = content;
+	await article.save();
+
+	res.redirect("/");
+};
+
 exports.getDetails = async (req, res) => {
 	const title = req.params.title;
 	let article = await Article.find({ title: title });
+	article = article[0];
 	let isLoggedin = req.session.isLoggedin;
 	let username = req.session.user.username;
+
+	let owner = false;
+	if (req.user) {
+		owner = req.user._id.toString() == article.author;
+	}
 	if (article) {
-		article = article[0];
 		const viewData = {
 			docTitle: `details | ${title}`,
 			isLoggedin,
 			username,
 			title: article.title,
 			content: article.content,
-			id: article._id.toString()
+			id: article._id.toString(),
+			owner,
 		};
 		res.render("article.hbs", viewData);
+	}
+};
+
+exports.deleteArticle = async (req, res) => {
+	try {
+		const id = req.params.id;
+
+		await Article.findByIdAndDelete(id);
+		res.redirect("/");
+	} catch (err) {
+		console.log(err);
 	}
 };

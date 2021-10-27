@@ -3,19 +3,17 @@
 	<section id="featured">
 		<h2>Latests articles</h2>
 		{{>notifications}}
+		{{#each articles}}
 		<article>
-			<h3>Astronomy</h3>
+			<h3>{{title}}</h3>
 			<p>
-				Astronomy is a natural science that studies celestial objects
-				and phenomena. It applies mathematics, physics, and chemistry,
-				in an effort to explain the origin of those objects and
-				phenomena and their evolution. Objects of interest include
-				planets, moons, stars, galaxies, and comets; the phenomena
-				include supernova explosions, gamma ray bursts,&hellip;
+				{{content}},&hellip;
 			</p>
+		
 			<div class="controls">
-				<a href="article.html">Read more</a>
+				<a href="article/{{title}}">Read more</a>
 			</div>
 		</article>
+		{{/each}}
 	</section>
 </main>

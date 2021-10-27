@@ -3,10 +3,12 @@
 	<div class="spacer">
 		<h2>
 			{{title}}
-			<div class="controls">
-				<a href="edit.html">[edit]</a>
-				<a href="history.html">[delete]</a>
-			</div>
+			{{#if owner}}
+				<div class="controls">
+					<a href="/edit/{{id}}">[edit]</a>
+					<a href="/delete/{{id}}">[delete]</a>
+				</div>
+			{{/if}}
 		</h2>
 		<article>
 			<p>
