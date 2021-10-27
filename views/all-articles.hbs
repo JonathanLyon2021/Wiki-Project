@@ -1,25 +1,15 @@
 <main>
-    <h1>Welcome to KingUni Wiki!</h1>
-    <section>
-        <h2>All articles</h2>
-        <div class="spacer">
-            <ul>
-                <li>
-                    <a href="article.html">Astronomy</a>
-                </li>
-                <li>
-                    <a href="article.html">Galaxy</a>
-                </li>
-                <li>
-                    <a href="article.html">Planet</a>
-                </li>
-                <li>
-                    <a href="article.html">Star</a>
-                </li>
-                <li>
-                    <a href="article.html">Telescope</a>
-                </li>
-            </ul>
-        </div>
-    </section>
+	<h1>Welcome to KingUni Wiki!</h1>
+	<section>
+		<h2>All articles</h2>
+		<div class="spacer">
+			<ul>
+				{{#each titles}}
+				<li>
+					<a href="article/{{this}}">{{this}}</a>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
+	</section>
 </main>

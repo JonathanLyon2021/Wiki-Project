@@ -1,16 +1,14 @@
 <main>
-	<h1>Welcome to KingUni Wiki!</h1>
-	<section id="notifications">
-		<p>Both passwords should be the same...</p>
-	</section>
+	
 	<section>
+		{{>notifications}}
 		<h2>Register</h2>
 		<div class="spacer">
-			<form>
+			<form action="/register" method="POST">
 				<label>Username:</label>
-				<input type="text" />
+				<input type="text" name="username"/>
 				<label>Password:</label>
-				<input type="password" />
+				<input type="password" name="password"/>
 				<label>Repeat password:</label>
 				<input type="password" />
 				<input type="submit" value="Register" />

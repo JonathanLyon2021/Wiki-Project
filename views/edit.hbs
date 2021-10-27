@@ -4,13 +4,18 @@
 		<p>Article description should be at least 20 characters long...</p>
 	</section>
 	<section>
-		<h2>Create new article</h2>
+		<h2>Edit article</h2>
 		<div class="spacer">
-			<form action="/create" method="POST">
+			<form action="/edit/{{id}}" method="POST">
 				<label>Article title</label>
-				<input type="text" class="title" name="title" />
+				<input
+					type="text"
+					class="title"
+					name="title"
+					value="{{title}}"
+				/>
 				<label>Content</label>
-				<textarea name="content"></textarea>
+				<textarea name="content">{{content}}</textarea>
 				<input type="submit" value="Submit" />
 			</form>
 		</div>
