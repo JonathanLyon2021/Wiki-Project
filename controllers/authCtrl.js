@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User.js");
+const { validationResult } = require("express-validator");
 
 exports.getRegister = (req, res) => {
 	res.render("auth/register.hbs", { docTitle: "register" });
@@ -8,7 +9,14 @@ exports.getRegister = (req, res) => {
 exports.postRegister = (req, res) => {
 	const { username, password } = req.body;
 	console.log(username, password);
-	// console.log(req);
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log(errors);
+		return res.render("auth/register", {
+			docTitle: "register",
+			errorMessage: errors.array()[0].msg,
+		});
+	}
 
 	//hash the password
 	bcrypt
@@ -19,9 +27,11 @@ exports.postRegister = (req, res) => {
 		})
 		.then((result) => {
 			console.log(result);
-			req.flash("success", "Registration Successful");
 
-			res.render("index.hbs", { docTitle: "home" });
+			res.render("auth/login.hbs", {
+				docTitle: "login",
+				successMessage: "Registration Successful",
+			});
 		})
 		.catch((err) => console.log(err));
 };
@@ -34,6 +44,14 @@ exports.postLogin = (req, res) => {
 	const { username, password } = req.body;
 	// const isLoggedin = res.locals.isAuthenticated
 	console.log(username, password);
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log(errors);
+		return res.render("auth/login", {
+			docTitle: "login",
+			errorMessage: errors.array()[0].msg,
+		});
+	}
 	// console.log(req);
 
 	//check the database to see if this username exists
@@ -57,11 +75,12 @@ exports.postLogin = (req, res) => {
 					return req.session.save((err) => {
 						console.log(err);
 						req.flash("success", "Logged in successfully!");
-						return res.render("index.hbs", {
-							successMessage: req.flash("success"),
-							isLoggedin: req.session.isLoggedin,
-							username: req.session.user.username,
-						});
+						// return res.render("index.hbs", {
+						// 	successMessage: req.flash("success"),
+						// 	isLoggedin: req.session.isLoggedin,
+						// 	username: req.session.user.username,
+						// });
+						return res.redirect("/");
 					});
 				}
 				req.flash("error", "Invalid username or password!");

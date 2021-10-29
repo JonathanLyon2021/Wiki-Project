@@ -5,6 +5,8 @@
 	</section>
 	<section>
 		<h2>Edit article</h2>
+		{{>notifications}}
+
 		<div class="spacer">
 			<form action="/edit/{{id}}" method="POST">
 				<label>Article title</label>
@@ -17,6 +19,8 @@
 				<label>Content</label>
 				<textarea name="content">{{content}}</textarea>
 				<input type="submit" value="Submit" />
+				<input type="hidden" name="id" value="{{id}}" />
+
 			</form>
 		</div>
 	</section>
