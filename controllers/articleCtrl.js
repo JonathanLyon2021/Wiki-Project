@@ -1,6 +1,7 @@
 //https://mongoosejs.com/docs/api.html
 
 const Article = require("../models/Article");
+const { validationResult } = require("express-validator");
 
 exports.getHome = async (req, res) => {
 	console.log("home");
@@ -13,7 +14,7 @@ exports.getHome = async (req, res) => {
 	}
 	try {
 		let articles = await Article.find({});
-		console.log(articles);
+		// console.log(articles);
 		articles = articles.slice(0, 3);
 		//[map over the articles and constrain the word count to 50 words]
 		articles = articles.map((article) => {
@@ -87,6 +88,7 @@ exports.getEdit = async (req, res) => {
 exports.postCreate = async (req, res) => {
 	let { title, content } = req.body;
 	console.log(req.body);
+
 	const obj = { title, content, author: req.user._id };
 	const document = await Article.create(new Article(obj));
 	if (document) {
@@ -100,9 +102,23 @@ exports.postCreate = async (req, res) => {
 };
 
 exports.postEdit = async (req, res) => {
-	let id = req.params.id;
-	let { title, content } = req.body;
-	const article = await Article.findById(id);
+	let userId = req.params.id;
+	let { title, content, id } = req.body;
+
+	//validation
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log(errors);
+		return res.render("edit", {
+			docTitle: "edit",
+			errorMessage: errors.array()[0].msg,
+			title: title,
+			content: content,
+			id: id,
+		});
+	}
+
+	const article = await Article.findById(userId);
 	article.title = title;
 	article.content = content;
 	await article.save();
