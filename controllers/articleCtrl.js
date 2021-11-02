@@ -4,31 +4,83 @@ const Article = require("../models/Article");
 const { validationResult } = require("express-validator");
 
 exports.getHome = async (req, res) => {
-	console.log("home");
-	let username;
-	let isLoggedin = req.session.isLoggedin;
-	if (isLoggedin) {
-		username = req.session.user.username;
+	// let allArticles;
+	// Article.find({}).then((a) => {
+	// 	console.log(a);
+	// 	allArticles = a;
+	// });
+
+	if (req.query.search) {
+		try {
+			let username;
+			let isLoggedin = req.session.isLoggedin;
+			if (isLoggedin) {
+				username = req.session.user.username;
+			} else {
+				username = null;
+			}
+			let titles = [];
+			let allArticles = await Article.find({});
+			console.log("search");
+
+			allArticles.forEach((article) => {
+				if (
+					article.title
+						.toLowerCase()
+						.includes(req.query.search.toLowerCase())
+				) {
+					titles.push(article.title);
+				}
+			});
+
+			if (allArticles.length == 0) {
+				req.flash("error", "No results found");
+				return res.redirect("/");
+			}
+			res.render("all-articles.hbs", {
+				docTitle: "All-articles",
+				isLoggedin,
+				username,
+				titles,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+
+		//Determine if article array is empty
+		// const articleSize = articles.length;
 	} else {
-		username = null;
-	}
-	try {
-		let articles = await Article.find({});
-		// console.log(articles);
-		articles = articles.slice(0, 3);
-		//[map over the articles and constrain the word count to 50 words]
-		articles = articles.map((article) => {
-			let description = article.content.split(" ").slice(0, 50).join(" ");
-			return { title: article.title, content: description };
-		});
-		res.render("index.hbs", {
-			docTitle: `home`,
-			isLoggedin,
-			username,
-			articles,
-		});
-	} catch (err) {
-		console.log(err);
+		let username;
+		let isLoggedin = req.session.isLoggedin;
+		if (isLoggedin) {
+			username = req.session.user.username;
+		} else {
+			username = null;
+		}
+		try {
+			// let articles = await Article.find({});
+			let allArticles = await Article.find({});
+			console.log("home");
+			// console.log(allArticles);
+			allArticles = allArticles.slice(0, 3);
+			//[map over the allArticles and constrain the word count to 50 words]
+			allArticles = allArticles.map((article) => {
+				let description = article.content
+					.split(" ")
+					.slice(0, 50)
+					.join(" ");
+				return { title: article.title, content: description };
+			});
+			console.log(req);
+			res.render("index.hbs", {
+				docTitle: `home`,
+				isLoggedin,
+				username,
+				articles: allArticles,
+			});
+		} catch (err) {
+			console.log(err);
+		}
 	}
 };
 
