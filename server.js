@@ -15,7 +15,8 @@ const PORT = process.env.PORT || 3000;
 // console.log(process.env);
 
 //mongo
-const dbURI = `mongodb+srv://guest:${process.env.MONGO_PW}@project-wiki.lkv0y.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+const dbURI = `mongodb+srv://guest:guest@project-wiki.lkv0y.mongodb.net/Wiki?retryWrites=true&w=majority`;
+
 
 //express
 const app = express();
