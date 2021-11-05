@@ -21,7 +21,7 @@ exports.getHome = async (req, res) => {
 			}
 			let titles = [];
 			let allArticles = await Article.find({});
-			console.log("search");
+			// console.log("search");
 
 			allArticles.forEach((article) => {
 				if (
@@ -86,7 +86,10 @@ exports.getHome = async (req, res) => {
 
 exports.getAllArticles = async (req, res) => {
 	let isLoggedin = req.session.isLoggedin;
-	let username = req.session.user.username;
+	let username = "";
+	if (isLoggedin) {
+		username = req.session.user.username;
+	}
 	let titles = [];
 
 	//return all articles from mongo
@@ -109,9 +112,6 @@ exports.getAllArticles = async (req, res) => {
 exports.getCreate = (req, res) => {
 	let isLoggedin = req.session.isLoggedin;
 	let username = req.session.user.username;
-	// console.log("home");
-	// console.log(req);
-	// console.log(res);
 
 	// res.json({ msg: "getHome" });
 	res.render("create.hbs", {
@@ -139,7 +139,7 @@ exports.getEdit = async (req, res) => {
 
 exports.postCreate = async (req, res) => {
 	let { title, content } = req.body;
-	console.log(req.body);
+	// console.log(req.body);
 
 	const obj = { title, content, author: req.user._id };
 	const document = await Article.create(new Article(obj));
@@ -159,6 +159,7 @@ exports.postEdit = async (req, res) => {
 
 	//validation
 	const errors = validationResult(req);
+	console.log(validationResult);
 	if (!errors.isEmpty()) {
 		console.log(errors);
 		return res.render("edit", {
@@ -183,8 +184,11 @@ exports.getDetails = async (req, res) => {
 	let article = await Article.find({ title: title });
 	article = article[0];
 	let isLoggedin = req.session.isLoggedin;
-	let username = req.session.user.username;
-
+	let username = "";
+	if (isLoggedin) {
+		username = req.session.user.username;
+	}
+	// comparing article author to the user in the req. object
 	let owner = false;
 	if (req.user) {
 		owner = req.user._id.toString() == article.author;
