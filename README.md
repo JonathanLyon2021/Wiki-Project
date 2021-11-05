@@ -2,6 +2,7 @@
 
 For this project I used a lot of middleware. Here are some of the middleware process I downloaded:
 I required express, 
+express-validator for article validation,
 bodyparser,
 mongoose, 
 handlebars as my view engine,
